@@ -27,4 +27,4 @@ Quick Info
   mongo - mongodb@4
 
 Refer mongodb@4 mac install guide : https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
-Start mongo server (
+Start mongo server
