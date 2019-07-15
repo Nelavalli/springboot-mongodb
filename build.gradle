@@ -1,9 +1,22 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        // The following is only necessary if you want to use SNAPSHOT releases.
+        // maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    }
+    dependencies {
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0'
+    }
+}
+
+
 plugins {
     id 'org.springframework.boot' version '2.1.6.RELEASE'
     id 'java'
 }
 
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'org.junit.platform.gradle.plugin'
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
@@ -23,12 +36,21 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    all*.exclude module : 'spring-boot-starter-logging'
+    all*.exclude module : 'junit:junit'
+
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation  'org.springframework.boot:spring-boot-starter-test'
+
+    testRuntime 'org.junit.jupiter:junit-jupiter-api:5.3.2'
+    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.3.2'
 }
