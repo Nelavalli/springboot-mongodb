@@ -3,8 +3,6 @@ package com.example.demo;
 import java.util.Arrays;
 import java.util.List;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -32,7 +30,7 @@ public class DemoApplication implements CommandLineRunner {
         );
         saveToMongoDB(customers);
         retrieveAllCustomers().stream().forEach(System.out::println);
-        removeFromMongoDB(retrieveAllCustomers());
+        removeCustomersFromMongoDB(retrieveAllCustomers());
     }
 
     public void saveToMongoDB(List<Customer> customers) {
@@ -47,11 +45,16 @@ public class DemoApplication implements CommandLineRunner {
         return customerRepository.findAll();
     }
 
-    public void removeFromMongoDB(List<Customer> customers) {
-        customers.stream().forEach(c -> removeFromMongoDB(c));
+    public void removeCustomersFromMongoDB(List<Customer> customers) {
+        customers.stream().forEach(c -> removeCustomerFromMongoDB(c));
     }
 
-    public void removeFromMongoDB(Customer c) {
+    public void removeCustomerFromMongoDB(Customer c) {
         customerRepository.delete(c);
+    }
+
+    public void removeCustomerFromMongoDB(String firstName, String lastName) {
+
+        customerRepository.deleteByFirstNameAndLastName(firstName, lastName);
     }
 }
